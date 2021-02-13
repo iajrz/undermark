@@ -6,7 +6,14 @@ plugins {
 }
 
 group = "com.iajrz"
-version = "1.0-SNAPSHOT"
+version = "0.9"
+
+ext {
+    this["PUBLISH_GROUP_ID"] = group
+    this["PUBLISH_VERSION"] = version
+    this["PUBLISH_ARTIFACT_ID"] = rootProject.name
+}
+apply { from("publish-mavencentral.gradle") }
 
 repositories {
     mavenCentral()
