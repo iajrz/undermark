@@ -38,6 +38,8 @@ class NakedDocument(doc: ParseableDoc) : UndermarkParser(doc) {
             if (isStartOfLine) {
                 if (currentCharacter == '#') {
                     Header(doc).parse()
+                } else if (currentCharacter == '*') {
+                    UnorderedList(doc).parse()
                 } else if (currentCharacter != '\n') {
                     Paragraph(doc).parse()
                 }
@@ -64,6 +66,40 @@ class Paragraph(doc: ParseableDoc) : UndermarkParser(doc) {
         doc.result += "</p>"
     }
 
+}
+
+class UnorderedList(doc: ParseableDoc) : UndermarkParser(doc) {
+    override fun parse() {
+        doc.result += "<ul>"
+        var lastWasBlank = false
+        while (doc.hasNext()) {
+            if (doc.peekNext() == '\n') {
+                if (lastWasBlank) {
+                    break
+                }
+                doc.next()
+                lastWasBlank = true
+            } else {
+                lastWasBlank = false
+                UnorderedListElement(doc).parse()
+            }
+        }
+        doc.result += "</ul>"
+    }
+
+}
+
+class UnorderedListElement(doc: ParseableDoc) : UndermarkParser(doc) {
+    override fun parse() {
+        doc.result += "<li>"
+        if (doc.peekNext() == '*') doc.next()
+        while (doc.peekNext() == ' ') doc.next()
+
+        while (doc.hasNext() && doc.peekNext() != '\n') {
+            doc.result += doc.next()
+        }
+        doc.result += "</li>"
+    }
 }
 
 class Header(doc: ParseableDoc) : UndermarkParser(doc) {

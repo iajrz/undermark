@@ -71,4 +71,17 @@ class ParserTest {
             md.parse()
         )
     }
+
+    @Test
+    fun unorderedList() {
+        val ul = """* first element
+            |* second element
+            |* third element's the charm!
+        """.trimMargin()
+        val md = UnderMark(ul)
+        assertEquals(
+            "<ul><li>first element</li><li>second element</li><li>third element's the charm!</li></ul>",
+            md.parse()
+        )
+    }
 }
