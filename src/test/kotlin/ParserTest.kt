@@ -84,4 +84,33 @@ class ParserTest {
             md.parse()
         )
     }
+
+    @Test
+    fun unorderedListStops() {
+        val content = """* First day I thought nothing would happen
+* Second day, I also thought nothing would happen
+* Third day, it all happened!
+
+Yes sir, it all happened.
+"""
+        val md = Undermark(content)
+        assertEquals(
+            """<ul><li>First day I thought nothing would happen</li><li>Second day, I also thought nothing would happen</li><li>Third day, it all happened!</li></ul><p>Yes sir, it all happened.</p>""",
+            md.parse()
+        )
+    }
+
+    @Test
+    fun unorderedListIntegratesParagraph() {
+        val content = """* First day I thought nothing would happen
+* Second day, I also thought nothing would happen
+* Third day, it all happened!
+Yes sir, it all happened.
+"""
+        val md = Undermark(content)
+        assertEquals(
+            """<ul><li>First day I thought nothing would happen</li><li>Second day, I also thought nothing would happen</li><li>Third day, it all happened!<p>Yes sir, it all happened.</p></li></ul>""",
+            md.parse()
+        )
+    }
 }

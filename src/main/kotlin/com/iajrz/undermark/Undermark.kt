@@ -19,6 +19,11 @@ class ParseableDoc(val src: String, var cursor: Int = -1, var result: String = "
         return src[cursor]
     }
 
+    fun prev(): Char {
+        cursor--
+        return src[cursor]
+    }
+
     fun hasNext(): Boolean {
         return (cursor + 1) < src.length
     }
@@ -79,7 +84,7 @@ class UnorderedList(doc: ParseableDoc) : UndermarkParser(doc) {
                 }
                 doc.next()
                 lastWasBlank = true
-            } else {
+            } else if (doc.peekNext() == '*') {
                 lastWasBlank = false
                 UnorderedListElement(doc).parse()
             }
@@ -97,6 +102,17 @@ class UnorderedListElement(doc: ParseableDoc) : UndermarkParser(doc) {
 
         while (doc.hasNext() && doc.peekNext() != '\n') {
             doc.result += doc.next()
+        }
+        if (doc.hasNext() && doc.peekNext() == '\n') {
+            doc.next()
+            if (doc.hasNext()
+                && doc.peekNext() != '\n'
+                && doc.peekNext() != '*'
+                && doc.peekNext() != '#') {
+                Paragraph(doc).parse()
+            } else {
+                doc.prev()
+            }
         }
         doc.result += "</li>"
     }
