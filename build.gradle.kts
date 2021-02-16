@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.4.30"
+    id("org.jetbrains.dokka") version "1.4.20"
 }
 
 group = "com.iajrz"
@@ -16,6 +17,7 @@ apply { from("publish-mavencentral.gradle") }
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
@@ -31,4 +33,3 @@ tasks.test {
 tasks.withType<KotlinCompile>() {
     kotlinOptions.jvmTarget = "1.8"
 }
-
