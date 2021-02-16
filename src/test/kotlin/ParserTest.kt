@@ -1,4 +1,4 @@
-import com.iajrz.undermark.UnderMark
+import com.iajrz.undermark.Undermark
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
@@ -7,14 +7,14 @@ class ParserTest {
     fun simplestContent() {
         val simpleContent =
             "Simple content that needs not be, and should not be, modified by the parser. Except to add paragraph tags."
-        val md = UnderMark(simpleContent)
+        val md = Undermark(simpleContent)
         assertEquals("<p>$simpleContent</p>", md.parse())
     }
 
     fun hn(n: Int) {
         val hPrefix = "#".repeat(n)
         val title = "Title!"
-        val md = UnderMark("$hPrefix$title")
+        val md = Undermark("$hPrefix$title")
         assertEquals("<h$n>$title</h$n>", md.parse())
     }
 
@@ -34,7 +34,7 @@ class ParserTest {
         val hPrefix = "#".repeat(n + 1)
         val title = "Title!"
 
-        val md = UnderMark("$hPrefix$title")
+        val md = Undermark("$hPrefix$title")
         assertEquals("<h$n>#$title</h$n>", md.parse())
     }
 
@@ -42,7 +42,7 @@ class ParserTest {
     fun h1WithSpacePrefix() {
         val h1Prefix = "# "
         val title = "Title!"
-        val md = UnderMark("$h1Prefix$title")
+        val md = Undermark("$h1Prefix$title")
         assertEquals("<h1>$title</h1>", md.parse())
     }
 
@@ -51,7 +51,7 @@ class ParserTest {
         val numberSymbol = "#"
         val firstHalf = "First Half Of The Content"
         val secondHalf = "Second Half of the Content"
-        val md = UnderMark("$firstHalf$numberSymbol$secondHalf")
+        val md = Undermark("$firstHalf$numberSymbol$secondHalf")
         assertEquals(
             "<p>$firstHalf$numberSymbol$secondHalf</p>",
             md.parse()
@@ -65,7 +65,7 @@ class ParserTest {
         val title = "Title!"
         val numberSymbol = '#'
         val secondHalf = "Second Half of the Content"
-        val md = UnderMark("$firstHalf$newLine$numberSymbol$title$newLine$secondHalf")
+        val md = Undermark("$firstHalf$newLine$numberSymbol$title$newLine$secondHalf")
         assertEquals(
             "<p>$firstHalf</p><h1>$title</h1><p>$secondHalf</p>",
             md.parse()
@@ -78,7 +78,7 @@ class ParserTest {
             |* second element
             |* third element's the charm!
         """.trimMargin()
-        val md = UnderMark(ul)
+        val md = Undermark(ul)
         assertEquals(
             "<ul><li>first element</li><li>second element</li><li>third element's the charm!</li></ul>",
             md.parse()

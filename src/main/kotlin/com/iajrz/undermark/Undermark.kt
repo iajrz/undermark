@@ -1,6 +1,6 @@
 package com.iajrz.undermark
 
-class UnderMark(private val string: String) {
+class Undermark(private val string: String) {
 
     fun parse(): String {
         val parser = NakedDocument(ParseableDoc(string))
