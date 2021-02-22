@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.iajrz"
-version = "0.9"
+version = "0.9.1"
 
 ext {
     this["PUBLISH_GROUP_ID"] = group
